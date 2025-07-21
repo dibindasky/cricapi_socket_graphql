@@ -29,6 +29,11 @@ class AppThemes {
           fontSize: 14,
           fontWeight: FontWeight.bold,
         ),
+        bodyLarge: TextStyle(
+          color: kblack,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
         bodySmall: TextStyle(color: kwhite, fontSize: 12),
         displaySmall: TextStyle(color: kblack, fontSize: 12),
         displayMedium: TextStyle(
@@ -138,6 +143,11 @@ class AppThemes {
         bodyMedium: TextStyle(
           color: kblack,
           fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
+        bodyLarge: TextStyle(
+          color: kwhite,
+          fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
         bodySmall: TextStyle(color: kblack, fontSize: 12),

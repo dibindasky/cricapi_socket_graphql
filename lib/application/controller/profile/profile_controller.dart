@@ -7,6 +7,7 @@ class ProfileController extends GetxController {
   /// user profile loader
   RxBool prfileDetailLoading = false.obs;
 
+  /// user data
   Rx<User> userData = Rx<User>(User());
 
   GraphQLService graphQLService = GraphQLService();

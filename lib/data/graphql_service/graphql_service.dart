@@ -15,7 +15,9 @@ class GraphQLService {
   Future<void> initClient() async {
     final token = await LocalStoragePrefService.getToken();
 
-    final HttpLink httpLink = HttpLink(GraphqlEndpoint.serverEndpoint);
+    final HttpLink httpLink = HttpLink(
+      GraphqlEndpoint.serverEndpoint,
+    );
 
     final AuthLink authLink = AuthLink(
       getToken: () async => 'Bearer ${token.token ?? ""}',
@@ -33,7 +35,9 @@ class GraphQLService {
 
   GraphQLClient get client {
     if (_client == null) {
-      initClient();
+      throw Exception(
+        'GraphQL client is not initialized. Call initClient() first.',
+      );
     }
     return _client!;
   }
