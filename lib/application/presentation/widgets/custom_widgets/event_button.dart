@@ -3,22 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomEventButton extends StatelessWidget {
-  const CustomEventButton(
-      {super.key,
-      required this.text,
-      required this.onTap,
-      this.width,
-      this.hieght,
-      this.textColr,
-      this.textStyle,
-      this.color,
-      this.borderRadius,
-      this.showGradiant = true,
-      this.outlineBorder = false,
-      this.outlineBorderClr,
-      this.padding,
-      this.margin,
-      this.clr});
+  const CustomEventButton({
+    super.key,
+    required this.text,
+    required this.onTap,
+    this.width,
+    this.hieght,
+    this.textColr,
+    this.textStyle,
+    this.color,
+    this.borderRadius,
+    this.showGradiant = true,
+    this.outlineBorder = false,
+    this.outlineBorderClr,
+    this.padding,
+    this.margin,
+    this.clr,
+  });
 
   final String text;
   final VoidCallback onTap;
@@ -45,23 +46,23 @@ class CustomEventButton extends StatelessWidget {
         width: width ?? 150,
         height: hieght ?? 45,
         decoration: BoxDecoration(
-          border: outlineBorder
-              ? Border.all(color: outlineBorderClr ?? kblack)
-              : null,
+          border:
+              outlineBorder
+                  ? Border.all(color: outlineBorderClr ?? kblack)
+                  : null,
           gradient: showGradiant ? (color) : null,
-          borderRadius: BorderRadius.all(
-            Radius.circular(borderRadius ?? 25),
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 25)),
           color: clr ?? Theme.of(context).scaffoldBackgroundColor,
         ),
         child: Center(
           child: Text(
             text,
-            style: textStyle ??
-                Theme.of(context)
-                    .textTheme
-                    .displaySmall
-                    ?.copyWith(color: textColr ?? kblack, fontSize: 14.sp),
+            style:
+                textStyle ??
+                Theme.of(context).textTheme.displaySmall?.copyWith(
+                  color: textColr ?? kblack,
+                  fontSize: 14.sp,
+                ),
           ),
         ),
       ),

@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerLoaderTile extends StatelessWidget {
-  const ShimmerLoaderTile(
-      {super.key,
-      this.height,
-      this.width,
-      this.baseColor,
-      this.padding = const EdgeInsets.all(0),
-      this.boxDecoration = const BoxDecoration(
-        color: klightgrey,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      this.highlightColor});
+  const ShimmerLoaderTile({
+    super.key,
+    this.height,
+    this.width,
+    this.baseColor,
+    this.padding = const EdgeInsets.all(0),
+    this.boxDecoration = const BoxDecoration(
+      color: klightgrey,
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+    ),
+    this.highlightColor,
+  });
 
   final double? width;
   final double? height;
@@ -27,7 +28,8 @@ class ShimmerLoaderTile extends StatelessWidget {
     return Padding(
       padding: padding,
       child: Shimmer.fromColors(
-        baseColor: baseColor ??
+        baseColor:
+            baseColor ??
             Theme.of(context).colorScheme.secondary.withOpacity(0.3),
         highlightColor: baseColor ?? Theme.of(context).scaffoldBackgroundColor,
         child: Container(
@@ -42,6 +44,7 @@ class ShimmerLoaderTile extends StatelessWidget {
     );
   }
 }
+
 class ShimmerLoader extends StatelessWidget {
   const ShimmerLoader({
     super.key,
@@ -72,7 +75,8 @@ class ShimmerLoader extends StatelessWidget {
       scrollDirection: scrollDirection,
       itemBuilder: (context, index) {
         return Shimmer.fromColors(
-          baseColor: baseColor ??
+          baseColor:
+              baseColor ??
               Theme.of(context).colorScheme.secondary.withOpacity(0.3),
           highlightColor:
               baseColor ?? Theme.of(context).scaffoldBackgroundColor,

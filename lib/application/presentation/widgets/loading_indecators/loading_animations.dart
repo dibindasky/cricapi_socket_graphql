@@ -13,8 +13,9 @@ class LoadingAnimation extends StatelessWidget {
       child: SizedBox(
         width: width,
         child: LoadingIndicator(
-            indicatorType: Indicator.ballPulse,
-            colors: colors ?? [Theme.of(context).colorScheme.primary]),
+          indicatorType: Indicator.ballPulse,
+          colors: colors ?? [Theme.of(context).colorScheme.primary],
+        ),
       ),
     );
   }
@@ -32,8 +33,9 @@ class LoadingAudioAnimation extends StatelessWidget {
       child: SizedBox(
         width: width,
         child: LoadingIndicator(
-            indicatorType: Indicator.lineScalePulseOut,
-            colors: colors ?? [Theme.of(context).colorScheme.primary]),
+          indicatorType: Indicator.lineScalePulseOut,
+          colors: colors ?? [Theme.of(context).colorScheme.primary],
+        ),
       ),
     );
   }
@@ -51,8 +53,9 @@ class LoadingTypingAnimation extends StatelessWidget {
       child: SizedBox(
         width: width,
         child: LoadingIndicator(
-            indicatorType: Indicator.ballPulseSync,
-            colors: colors ?? [Theme.of(context).colorScheme.primary]),
+          indicatorType: Indicator.ballPulseSync,
+          colors: colors ?? [Theme.of(context).colorScheme.primary],
+        ),
       ),
     );
   }
@@ -70,16 +73,20 @@ class LoadingOrbitAnimation extends StatelessWidget {
       child: SizedBox(
         width: width,
         child: LoadingIndicator(
-            indicatorType: Indicator.orbit,
-            colors: colors ?? [Theme.of(context).colorScheme.primary]),
+          indicatorType: Indicator.orbit,
+          colors: colors ?? [Theme.of(context).colorScheme.primary],
+        ),
       ),
     );
   }
 }
 
 class LoadingBallRotateChaseAnimation extends StatelessWidget {
-  const LoadingBallRotateChaseAnimation(
-      {super.key, this.width = 60, this.colors});
+  const LoadingBallRotateChaseAnimation({
+    super.key,
+    this.width = 60,
+    this.colors,
+  });
 
   final double? width;
   final List<Color>? colors;
@@ -90,16 +97,20 @@ class LoadingBallRotateChaseAnimation extends StatelessWidget {
       child: SizedBox(
         width: width,
         child: LoadingIndicator(
-            indicatorType: Indicator.ballRotateChase,
-            colors: colors ?? [Theme.of(context).colorScheme.primary]),
+          indicatorType: Indicator.ballRotateChase,
+          colors: colors ?? [Theme.of(context).colorScheme.primary],
+        ),
       ),
     );
   }
 }
 
 class LoadingLineSpinFadeLoaderAnimation extends StatelessWidget {
-  const LoadingLineSpinFadeLoaderAnimation(
-      {super.key, this.width = 60, this.colors});
+  const LoadingLineSpinFadeLoaderAnimation({
+    super.key,
+    this.width = 60,
+    this.colors,
+  });
 
   final double? width;
   final List<Color>? colors;
@@ -110,16 +121,20 @@ class LoadingLineSpinFadeLoaderAnimation extends StatelessWidget {
       child: SizedBox(
         width: width,
         child: LoadingIndicator(
-            indicatorType: Indicator.lineSpinFadeLoader,
-            colors: colors ?? [Theme.of(context).colorScheme.primary]),
+          indicatorType: Indicator.lineSpinFadeLoader,
+          colors: colors ?? [Theme.of(context).colorScheme.primary],
+        ),
       ),
     );
   }
 }
 
 class LoadingCircleStrokeSpinAnimation extends StatelessWidget {
-  const LoadingCircleStrokeSpinAnimation(
-      {super.key, this.width = 60, this.colors});
+  const LoadingCircleStrokeSpinAnimation({
+    super.key,
+    this.width = 60,
+    this.colors,
+  });
 
   final double? width;
   final List<Color>? colors;
@@ -130,8 +145,9 @@ class LoadingCircleStrokeSpinAnimation extends StatelessWidget {
       child: SizedBox(
         width: width,
         child: LoadingIndicator(
-            indicatorType: Indicator.circleStrokeSpin,
-            colors: colors ?? [Theme.of(context).colorScheme.primary]),
+          indicatorType: Indicator.circleStrokeSpin,
+          colors: colors ?? [Theme.of(context).colorScheme.primary],
+        ),
       ),
     );
   }

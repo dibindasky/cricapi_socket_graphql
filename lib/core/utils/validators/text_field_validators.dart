@@ -2,11 +2,12 @@ import 'package:distinct_assignment/core/utils/const.dart';
 import 'package:distinct_assignment/core/utils/validators/validation_functions.dart';
 
 class ValidationTextField {
-  static String? validateTextField(
-      {required Validate validate,
-      required String labelText,
-      required String? value,
-      String? password}) {
+  static String? validateTextField({
+    required Validate validate,
+    required String labelText,
+    required String? value,
+    String? password,
+  }) {
     switch (validate) {
       case Validate.none:
         return null;
@@ -28,8 +29,8 @@ class ValidationTextField {
         } else if (value.length != 10) {
           return 'ⓘ Phone number should have exactly 10 digits';
         }
-        break;     
-         case Validate.email:
+        break;
+      case Validate.email:
         if (!isValidEmail(value!)) {
           return 'ⓘ Please enter a valid email address';
         }
