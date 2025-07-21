@@ -21,7 +21,9 @@ class AuthService implements AuthRepo {
         headers: {'x-api-key': AppSecrets.requResApiKey},
       );
       ApiResponse response = ApiResponse.fromJson(responce.data);
-      response.data = TokenModel.fromJson(response.data as Map<String, dynamic>? ?? {});
+      response.data = TokenModel.fromJson(
+        response.data as Map<String, dynamic>? ?? {},
+      );
       log('login  -> ${response.toJson()}');
       return response;
     } on DioException catch (e) {

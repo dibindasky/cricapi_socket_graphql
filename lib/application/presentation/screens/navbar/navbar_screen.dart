@@ -2,6 +2,7 @@ import 'package:distinct_assignment/application/controller/navbar/navbar_control
 import 'package:distinct_assignment/application/presentation/screens/cricket/cricket_home_screen.dart';
 import 'package:distinct_assignment/application/presentation/screens/navbar/widgets/custom_navbar.dart';
 import 'package:distinct_assignment/application/presentation/screens/navbar/widgets/exit_dialoge.dart';
+import 'package:distinct_assignment/application/presentation/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +17,7 @@ class ScreenNavBar extends StatelessWidget {
       ScreenCricketHome(),
       ScreenCricketHome(),
       ScreenCricketHome(),
+      ScreenProfile(),
     ];
     return PopScope(
       canPop: false,

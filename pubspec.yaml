@@ -48,6 +48,8 @@ dependencies:
   loading_indicator: ^3.1.1
   injectable: ^2.5.0
   get_it: ^8.0.3
+  cached_network_image: ^3.4.1
+  graphql_flutter: ^5.2.0
 
 dev_dependencies:
   flutter_test:

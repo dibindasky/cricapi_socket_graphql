@@ -1,3 +1,4 @@
+import 'package:distinct_assignment/application/controller/profile/profile_controller.dart';
 import 'package:distinct_assignment/core/routes/routes.dart';
 import 'package:distinct_assignment/core/utils/toast/custom_toast.dart';
 import 'package:distinct_assignment/data/api_service/auth/auth_service.dart';
@@ -34,6 +35,7 @@ class AuthController extends GetxController {
   void chekuserLoginAndShowScreen() async {
     final userLogin = await LocalStoragePrefService.getLogin();
     if (userLogin) {
+      Get.find<ProfileController>().getUserProfile();
       Get.offAndToNamed(Routes.navbar);
     } else {
       Get.offAndToNamed(Routes.login);
@@ -54,6 +56,7 @@ class AuthController extends GetxController {
         await LocalStoragePrefService.saveTokens(
           tokenModel: response.data as TokenModel? ?? TokenModel(token: ''),
         );
+        Get.find<ProfileController>().getUserProfile();
         Get.offAllNamed(Routes.navbar);
       } else {
         showCustomToast(message: response.error ?? 'Login failed');
