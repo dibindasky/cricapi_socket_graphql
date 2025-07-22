@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LocalStoragePrefService {
   static const String isLogged = 'is_loggedIn';
   static const String accessKey = 'access_key';
+  static const String themeMode = 'theme_mode';
 
   static SharedPreferences? _pref;
 
@@ -45,5 +46,15 @@ class LocalStoragePrefService {
     final accessToken = preferences.getString(accessKey);
     log('accessToken => $accessToken');
     return TokenModel(token: accessToken);
+  }
+
+  static Future<void> setThemeMode(String mode) async {
+    final preferences = await _getPrefs();
+    await preferences.setString(themeMode, mode);
+  }
+
+  static Future<String> getThemeMode() async {
+    final preferences = await _getPrefs();
+    return preferences.getString(themeMode) ?? 'system';
   }
 }

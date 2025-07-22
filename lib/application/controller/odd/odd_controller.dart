@@ -1,8 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
+import 'dart:developer' as log;
+import 'package:distinct_assignment/core/endpoints/socket_endpoints.dart';
+import 'package:distinct_assignment/data/services/image/image_picker_service.dart';
+import 'package:distinct_assignment/data/socket_service/socket_service.dart';
 import 'package:get/get.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -12,9 +14,12 @@ class OddController extends GetxController {
   final imagePath = ''.obs;
   final stats = ''.obs;
 
-  WebSocketChannel? _channel;
+  WebSocketService? _webSocketService;
   Timer? _sendTimer;
   Timer? _pollingTimer;
+
+  /// Counter for x-axis values in the chart
+  /// Starts at 0 and increments with each new data point
   int _x = 0;
 
   @override
@@ -25,14 +30,26 @@ class OddController extends GetxController {
 
   void _connectWebSocket() {
     try {
-      _channel = WebSocketChannel.connect(Uri.parse('wss://echo.websocket.events'));
-      _channel!.stream.listen((message) {
-        _updateOdds(message);
-      }, onError: (_) => _startPolling(), onDone: () => _startPolling());
-
+      _webSocketService = WebSocketService(SocketEndpoints.serverEndpoint);
+      _webSocketService!.connect(
+        listener: (message) {
+          log.log('WebSocket message received: $message');
+          _updateOdds(message);
+          _pollingTimer?.cancel();
+        },
+        onErrors: (error) {
+          print('WebSocket error: $error');
+          _startPolling();
+        },
+        onDones: () {
+          print('WebSocket connection closed.');
+          _startPolling();
+        },
+      );
       _sendTimer = Timer.periodic(Duration(seconds: 3), (_) {
         final fakeOdds = _generateFakeOdds();
-        _channel?.sink.add(fakeOdds);
+        _webSocketService?.sendMessage(fakeOdds);
+        _pollingTimer?.cancel();
       });
     } catch (_) {
       _startPolling();
@@ -42,32 +59,40 @@ class OddController extends GetxController {
   void _startPolling() {
     _sendTimer?.cancel();
     _pollingTimer = Timer.periodic(Duration(seconds: 5), (_) {
-      final fakeOdds = '${_generateFakeOdds()} (polled)';
+      final fakeOdds = _generateFakeOdds();
       _updateOdds(fakeOdds);
     });
   }
 
   void _updateOdds(String value) {
     oddsText.value = value;
-    final y = double.tryParse(value.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0;
+    final y = double.tryParse(value) ?? 0;
+    print('Parsed odds value: $y from "$value"');
     chartData.add(FlSpot(_x.toDouble(), y));
     if (chartData.length > 20) chartData.removeAt(0); // keep recent 20
     _x++;
   }
 
+  /// Generates a random odds value as a string
   String _generateFakeOdds() {
     final random = Random();
     return (random.nextDouble() * 100).toStringAsFixed(2);
   }
 
+  /// picking an image and updating stats
   Future<void> pickImage() async {
-    final picker = ImagePicker();
-    final picked = await picker.pickImage(source: ImageSource.gallery);
+    final picked = await ImagePickerService.pickImage();
 
     if (picked != null) {
       imagePath.value = picked.path;
       stats.value = _simulateStats();
     }
+  }
+
+  /// Removes the selected image and resets stats
+  void removeImage() {
+    imagePath.value = '';
+    stats.value = '';
   }
 
   String _simulateStats() {
@@ -79,7 +104,7 @@ class OddController extends GetxController {
   void onClose() {
     _sendTimer?.cancel();
     _pollingTimer?.cancel();
-    _channel?.sink.close();
+    _webSocketService?.disconnect();
     super.onClose();
   }
 }

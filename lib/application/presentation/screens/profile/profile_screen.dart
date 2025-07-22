@@ -1,4 +1,5 @@
 import 'package:distinct_assignment/application/controller/profile/profile_controller.dart';
+import 'package:distinct_assignment/application/controller/theme/theme_controller.dart';
 import 'package:distinct_assignment/application/presentation/screens/profile/widgets/profile_picture_builder.dart';
 import 'package:distinct_assignment/application/presentation/widgets/loading_indecators/loading_animations.dart';
 import 'package:distinct_assignment/application/presentation/widgets/loading_indecators/shimmer/shimmer_loader.dart';
@@ -15,6 +16,7 @@ class ScreenProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileController = Get.find<ProfileController>();
+    final themeController = Get.find<ThemeController>();
 
     return Scaffold(
       body: Padding(
@@ -127,14 +129,23 @@ class ScreenProfile extends StatelessWidget {
                       'App',
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
-                    _OptionsListTile(label: 'Privacy Policy', onTap: () {}),
-                    _OptionsListTile(label: 'Delete Account', onTap: () {}),
+                    Obx(
+                      () => _OptionsListTile(
+                        label: 'Theme',
+                        onTap: () {
+                          themeSelectionBottomSheet(context, themeController);
+                        },
+                        subLabel: themeController.themeModeString.value,
+                      ),
+                    ),
                     _OptionsListTile(
                       label: 'Logout',
                       onTap: () {
                         profileController.logout();
                       },
                     ),
+                    _OptionsListTile(label: 'Privacy Policy', onTap: () {}),
+                    _OptionsListTile(label: 'Delete Account', onTap: () {}),
                   ],
                 ),
                 adjustHieght(50.h),
@@ -143,6 +154,86 @@ class ScreenProfile extends StatelessWidget {
           );
         }),
       ),
+    );
+  }
+
+  Future<dynamic> themeSelectionBottomSheet(
+    BuildContext context,
+    ThemeController themeController,
+  ) {
+    return showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Select Theme',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              ListTile(
+                title: Text(
+                  'Light',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                leading: Radio<ThemeMode>(
+                  value: ThemeMode.light,
+                  groupValue: themeController.themeMode,
+                  onChanged: (value) {
+                    themeController.setTheme(AppThemeMode.light);
+                    Navigator.pop(context);
+                  },
+                ),
+                onTap: () {
+                  themeController.setTheme(AppThemeMode.light);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Dark',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                leading: Radio<ThemeMode>(
+                  value: ThemeMode.dark,
+                  groupValue: themeController.themeMode,
+                  onChanged: (value) {
+                    themeController.setTheme(AppThemeMode.dark);
+                    Navigator.pop(context);
+                  },
+                ),
+                onTap: () {
+                  themeController.setTheme(AppThemeMode.dark);
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: Text(
+                  'Same as device settings',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                leading: Radio<ThemeMode>(
+                  value: ThemeMode.system,
+                  groupValue: themeController.themeMode,
+                  onChanged: (value) {
+                    themeController.setTheme(AppThemeMode.system);
+                    Navigator.pop(context);
+                  },
+                ),
+                onTap: () {
+                  themeController.setTheme(AppThemeMode.system);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -192,9 +283,9 @@ class _OptionsListTile extends StatelessWidget {
                       border: Border.all(color: klightgrey),
                       color: Theme.of(context).colorScheme.onTertiary,
                     ),
-                    child: const Icon(
+                    child:  Icon(
                       Iconsax.arrow_right_3,
-                      color: kblack,
+                      color: Theme.of(context).colorScheme.onPrimary,
                       size: 16,
                     ),
                   ),

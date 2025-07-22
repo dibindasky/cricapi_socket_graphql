@@ -131,8 +131,16 @@ class AppThemes {
         onTertiary: kblack,
         secondary: kgrey,
       ),
+      radioTheme: RadioThemeData(
+        fillColor: MaterialStateProperty.all(kprimary),
+      ),
       dividerTheme: DividerThemeData(color: kgrey.withOpacity(0.4)),
-
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: koffBlack,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
       cardColor: kblack,
       textTheme: const TextTheme(
         headlineLarge: TextStyle(

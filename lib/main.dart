@@ -1,3 +1,4 @@
+import 'package:distinct_assignment/application/controller/theme/theme_controller.dart';
 import 'package:distinct_assignment/core/dependency/binding/all_controller_binding.dart';
 import 'package:distinct_assignment/core/dependency/di/dependency_injection.dart';
 import 'package:distinct_assignment/core/routes/route_generator.dart';
@@ -22,6 +23,7 @@ class DistinctAssignmentApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Get.put(ThemeController());
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -41,6 +43,7 @@ class DistinctAssignmentApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppThemes.lightTheme(),
         darkTheme: AppThemes.darkTheme(),
+        themeMode: themeController.themeMode,
         getPages: RouteGenerator.routes,
       ),
     );
