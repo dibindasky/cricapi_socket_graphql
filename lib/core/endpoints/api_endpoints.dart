@@ -6,4 +6,6 @@ class ApiEndPoints {
   static String login = '/login';
   static String matchDetails = '/match_info';
   static String currentMatches = '/currentMatches';
+  static String seriesInfoList = '/series';
+  static String seriesInfoDetails = '/series_info';
 }

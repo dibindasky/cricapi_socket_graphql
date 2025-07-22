@@ -8,7 +8,7 @@ const appLogo = 'assets/images/logo/dis_logo.png';
 const pageNotFoundImg = 'assets/images/page_not_found.png';
 const noInternetConnection = 'assets/images/no_internet_connection_img.png';
 const emptyImage = 'assets/images/Empty_img.png';
-const messageTemplate = 'assets/images/message_template.png';
+const messageTemplate = 'assets/images/error/message_template.png';
 const emptyNotifications = 'assets/images/empty_notifications.png';
 
 enum Validate { phone, email, password, none, notNull }

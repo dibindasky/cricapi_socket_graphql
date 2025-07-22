@@ -36,7 +36,7 @@ class MatchCard extends StatelessWidget {
                   children: [
                     Flash(
                       infinite: true,
-                      duration: const Duration(seconds: 15),
+                      duration: const Duration(seconds: 7),
                       child: Icon(
                         Icons.radio_button_checked,
                         color: kwhite,

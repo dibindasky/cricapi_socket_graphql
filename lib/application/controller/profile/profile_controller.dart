@@ -1,4 +1,7 @@
+import 'package:distinct_assignment/application/controller/navbar/navbar_controller.dart';
+import 'package:distinct_assignment/core/routes/routes.dart';
 import 'package:distinct_assignment/data/graphql_service/graphql_service.dart';
+import 'package:distinct_assignment/data/local_storage_service/local_storage_pref_service.dart';
 import 'package:distinct_assignment/domain/model/profile/user_data_response/user.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -61,5 +64,13 @@ class ProfileController extends GetxController {
       print('Error fetching user profile: $e');
     }
     prfileDetailLoading.value = false;
+  }
+
+  void logout() {
+    // Clear user data and navigate to login screen
+    userData.value = User();
+    LocalStoragePrefService.clearLogin();
+    Get.offAllNamed(Routes.login);
+    Get.find<NavbarController>().chageBottomBarIndex(0);
   }
 }

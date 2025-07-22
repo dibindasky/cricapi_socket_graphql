@@ -129,6 +129,12 @@ class ScreenProfile extends StatelessWidget {
                     ),
                     _OptionsListTile(label: 'Privacy Policy', onTap: () {}),
                     _OptionsListTile(label: 'Delete Account', onTap: () {}),
+                    _OptionsListTile(
+                      label: 'Logout',
+                      onTap: () {
+                        profileController.logout();
+                      },
+                    ),
                   ],
                 ),
                 adjustHieght(50.h),

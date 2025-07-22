@@ -36,16 +36,16 @@ class CustomBottomNavBar extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
             child: Obx(() {
-              final labels = ['Home', 'Dealers', 'Sales Target', 'Profile'];
+              final labels = ['Home', 'Live Odds', 'Profile'];
               final currentSelectedIcons = [
                 Icons.home_filled,
-                Iconsax.personalcard5,
+                // Iconsax.personalcard5,
                 Iconsax.graph5,
                 Icons.person,
               ];
               final currentIcons = [
                 Icons.home_outlined,
-                Iconsax.personalcard,
+                // Iconsax.personalcard,
                 Iconsax.graph,
                 Icons.person_outline,
               ];

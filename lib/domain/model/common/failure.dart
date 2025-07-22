@@ -10,8 +10,10 @@ class Failure {
     try {
       if (json == null) return Failure(message: errorMessage);
       return Failure(
-          message: ((json as Map<String, dynamic>?)?['message'] as String?) ??
-              errorMessage);
+        message:
+            ((json as Map<String, dynamic>?)?['message'] as String?) ??
+            errorMessage,
+      );
     } catch (e) {
       return Failure(message: errorMessage);
     }

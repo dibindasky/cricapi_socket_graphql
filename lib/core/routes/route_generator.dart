@@ -1,5 +1,6 @@
 import 'package:distinct_assignment/application/presentation/screens/auth/login_screen.dart';
 import 'package:distinct_assignment/application/presentation/screens/cricket/match_detail_screen.dart';
+import 'package:distinct_assignment/application/presentation/screens/cricket/series_detail_screen.dart';
 import 'package:distinct_assignment/application/presentation/screens/navbar/navbar_screen.dart';
 import 'package:distinct_assignment/application/presentation/screens/splash/splash_screen.dart';
 import 'package:get/get.dart';
@@ -27,6 +28,13 @@ class RouteGenerator {
     GetPage(
       name: Routes.matchDetail,
       page: () => const MatchDetailScreen(),
+      transition: Transition.fadeIn,
+      transitionDuration: animationDuration,
+    ),
+
+    GetPage(
+      name: Routes.seriesDetail,
+      page: () => const SeriesDetailScreen(),
       transition: Transition.fadeIn,
       transitionDuration: animationDuration,
     ),

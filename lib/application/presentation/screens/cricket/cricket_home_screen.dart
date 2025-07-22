@@ -1,5 +1,7 @@
+import 'package:distinct_assignment/application/controller/match/match_controller.dart';
 import 'package:distinct_assignment/application/controller/profile/profile_controller.dart';
 import 'package:distinct_assignment/application/presentation/screens/cricket/widget/current_match_list.dart';
+import 'package:distinct_assignment/application/presentation/screens/cricket/widget/series_info_list.dart';
 import 'package:distinct_assignment/application/presentation/screens/profile/widgets/profile_picture_builder.dart';
 import 'package:distinct_assignment/core/utils/colors.dart';
 import 'package:distinct_assignment/core/utils/const.dart';
@@ -15,28 +17,68 @@ class ScreenCricketHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _homeAppbar(context),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            adjustHieght(10.h),
-            Text(
-              'Current Matches',
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.bold,
+      body: DefaultTabController(
+        length: 2,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              adjustHieght(10.h),
+              TabBar(
+                dividerColor: knill,
+                labelColor: Theme.of(context).colorScheme.primary,
+                unselectedLabelColor: kgrey,
+                indicatorColor: Theme.of(context).colorScheme.primary,
+                tabs: [
+                  _createTabHeadlline(context, 'Current Matches'),
+                  _createTabHeadlline(context, 'Series'),
+                ],
               ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [CurrentMatchesList(), adjustHieght(90.h)],
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    RefreshIndicator(
+                      onRefresh: () async {
+                        Get.find<ProfileController>().getUserProfile();
+                        Get.find<MatchController>().fetchCurrentMatches();
+                      },
+                      child: SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        child: Column(
+                          children: [CurrentMatchesList(), adjustHieght(90.h)],
+                        ),
+                      ),
+                    ),
+                    RefreshIndicator(
+                      onRefresh: () async {
+                        Get.find<MatchController>().fetchSeriesInfoList();
+                      },
+                      child: SingleChildScrollView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        child: Column(
+                          children: [SeriesInfoList(), adjustHieght(90.h)],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Tab _createTabHeadlline(BuildContext context, String title) {
+    return Tab(
+      child: Text(
+        title,
+        style: Theme.of(context).textTheme.displaySmall?.copyWith(
+          fontSize: 15.sp,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
