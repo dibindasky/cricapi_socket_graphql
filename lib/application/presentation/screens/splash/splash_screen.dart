@@ -10,11 +10,9 @@ class ScreenSplash extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (timeStamp) {
-        _navigate(context);
-      },
-    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _navigate(context);
+    });
     return Scaffold(
       body: Center(
         child: Column(
@@ -23,7 +21,13 @@ class ScreenSplash extends StatelessWidget {
             FadeInUpBig(
               child: SizedBox(
                 width: 200.w,
-                child: Hero(tag: appLogo, child: Image.asset(appLogo)),
+                child: Hero(
+                  tag: appLogo,
+                  child: Image.asset(
+                    appLogo,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                ),
               ),
             ),
           ],

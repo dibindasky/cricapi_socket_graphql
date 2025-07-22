@@ -46,6 +46,14 @@ dependencies:
   google_nav_bar: ^5.0.7
   fluttertoast: ^8.2.12
   loading_indicator: ^3.1.1
+  injectable: ^2.5.0
+  get_it: ^8.0.3
+  cached_network_image: ^3.4.1
+  graphql_flutter: ^5.2.0
+  dartz: ^0.10.1
+  web_socket_channel: ^3.0.3
+  image_picker: ^1.1.2
+  fl_chart: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +66,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
   build_runner: ^2.5.4
+  pretty_dio_logger: ^1.4.0
+  injectable_generator: ^2.7.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

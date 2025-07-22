@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:distinct_assignment/application/controller/navbar/navbar_controller.dart';
+import 'package:distinct_assignment/core/utils/colors.dart';
 import 'package:distinct_assignment/core/utils/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +22,7 @@ class CustomBottomNavBar extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 16, left: 16, right: 16, top: 0),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onPrimary,
+          color: kblack,
           borderRadius: kBorderRadius12,
           boxShadow: [
             BoxShadow(
@@ -35,16 +36,16 @@ class CustomBottomNavBar extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 12),
             child: Obx(() {
-              final labels = ['Home', 'Dealers', 'Sales Target', 'Profile'];
+              final labels = ['Home', 'Live Odds', 'Profile'];
               final currentSelectedIcons = [
                 Icons.home_filled,
-                Iconsax.personalcard5,
+                // Iconsax.personalcard5,
                 Iconsax.graph5,
                 Icons.person,
               ];
               final currentIcons = [
                 Icons.home_outlined,
-                Iconsax.personalcard,
+                // Iconsax.personalcard,
                 Iconsax.graph,
                 Icons.person_outline,
               ];

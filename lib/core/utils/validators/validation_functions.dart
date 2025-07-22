@@ -37,8 +37,9 @@ bool isValidName(String input) {
 }
 
 bool isValidWebsite(String input) {
-  final urlRegex =
-      RegExp(r'^(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+(?:\/[^\s]*)?$');
+  final urlRegex = RegExp(
+    r'^(?:www\.)?[a-zA-Z0-9-]+(?:\.[a-zA-Z]{2,})+(?:\/[^\s]*)?$',
+  );
   return urlRegex.hasMatch(input);
 }
 
@@ -79,8 +80,9 @@ bool isValidUpiId(String input) {
 }
 
 bool isValidGst(String input) {
-  final hasRegExp =
-      RegExp(r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$');
+  final hasRegExp = RegExp(
+    r'^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$',
+  );
   return hasRegExp.hasMatch(input);
 }
 

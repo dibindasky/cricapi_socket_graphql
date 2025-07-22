@@ -28,7 +28,13 @@ class ScreenLoginPage extends StatelessWidget {
                   adjustHieght(30.h),
                   SizedBox(
                     width: 200.w,
-                    child: Hero(tag: appLogo, child: Image.asset(appLogo)),
+                    child: Hero(
+                      tag: appLogo,
+                      child: Image.asset(
+                        appLogo,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
                   ),
                   adjustHieght(20.h),
                   Text(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const Color kprimary = Color(0xFFFDB91C); // App primary color
 const Color kYellowShade = Color.fromARGB(255, 255, 246, 197);
 const Color kblack = Colors.black;
+const Color koffBlack = Color.fromARGB(255, 66, 66, 66);
 const Color kwhite = Colors.white;
 const Color koffwhite = Color(0xFFF7F7F7);
 const Color kgrey = Color.fromARGB(255, 148, 148, 148);
