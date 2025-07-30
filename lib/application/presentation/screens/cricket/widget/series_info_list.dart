@@ -74,7 +74,7 @@ class SeriesTile extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5.h),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: Theme.of(context).colorScheme.onTertiary,
         borderRadius: BorderRadius.circular(10.r),
       ),
       child: ListTile(

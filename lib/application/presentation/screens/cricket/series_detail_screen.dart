@@ -56,7 +56,8 @@ class SeriesDetailScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: ListTile(isThreeLine: true,
+                            child: ListTile(
+                              isThreeLine: true,
                               titleAlignment: ListTileTitleAlignment.top,
                               contentPadding: EdgeInsets.symmetric(
                                 vertical: 10,
@@ -68,8 +69,13 @@ class SeriesDetailScreen extends StatelessWidget {
                                     index + 1 == 1
                                         ? '1st Match'
                                         : '${index + 1}th Match',
+                                    style:
+                                        Theme.of(
+                                          context,
+                                        ).textTheme.displaySmall,
                                   ),
-                                  Tada(delay: animationDuration * index,
+                                  Tada(
+                                    delay: animationDuration * index,
                                     child: Icon(
                                       Icons.sports_cricket,
                                       size: 36,

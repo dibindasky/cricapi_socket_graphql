@@ -4,6 +4,7 @@ import 'package:distinct_assignment/data/api_service/api_service.dart';
 import 'package:distinct_assignment/domain/model/api_response/api_response.dart';
 import 'package:distinct_assignment/domain/model/common/failure.dart';
 import 'package:distinct_assignment/domain/model/match/match_model/match_model.dart';
+import 'package:distinct_assignment/domain/model/match/player/player.dart';
 import 'package:distinct_assignment/domain/model/match/series_info/info.dart';
 import 'package:distinct_assignment/domain/model/match/series_info/series_info.dart';
 import 'package:distinct_assignment/domain/repository/match_repo.dart';
@@ -108,6 +109,39 @@ class MatchService implements MatchRepo {
       }
     } catch (e) {
       return Left(Failure(message: 'Failed to fetch series info'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Player>>> playerSearch({
+    required String query,
+  }) async {
+    try {
+      final ApiResponse response = await apiService.get(
+        ApiEndPoints.playerSearch,
+        // '/players',
+        queryParameters: {
+          'query': query,
+          'apikey': AppSecrets.crickApikey,
+          'offset': 0,
+        },
+      );
+      if (response.success ?? false) {
+        final List<Player> players =
+            (response.data as List<dynamic>? ?? [])
+                .map(
+                  (player) =>
+                      Player.fromJson(player as Map<String, dynamic>? ?? {}),
+                )
+                .toList();
+        return Right(players);
+      } else {
+        return Left(
+          Failure(message: response.error ?? 'Failed to search players'),
+        );
+      }
+    } catch (e) {
+      return Left(Failure(message: 'Failed to search players'));
     }
   }
 }
