@@ -8,4 +8,5 @@ class ApiEndPoints {
   static String currentMatches = '/currentMatches';
   static String seriesInfoList = '/series';
   static String seriesInfoDetails = '/series_info';
+  static String playerSearch = '/players';
 }

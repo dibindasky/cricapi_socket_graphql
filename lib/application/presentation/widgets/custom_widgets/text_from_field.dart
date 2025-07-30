@@ -135,6 +135,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             context,
           ).textTheme.displaySmall?.copyWith(color: kgrey),
           labelText: widget.hintText != null ? null : widget.labelText,
+          labelStyle: Theme.of(
+            context,
+          ).textTheme.displaySmall?.copyWith(color: kgrey),
           border:
               widget.showUnderline
                   ? UnderlineInputBorder(

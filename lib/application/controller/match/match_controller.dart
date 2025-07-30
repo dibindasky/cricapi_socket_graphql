@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:distinct_assignment/data/api_service/match/match_service.dart';
 import 'package:distinct_assignment/domain/model/match/match_model/match_model.dart';
+import 'package:distinct_assignment/domain/model/match/player/player.dart';
 import 'package:distinct_assignment/domain/model/match/series_info/info.dart';
 import 'package:distinct_assignment/domain/model/match/series_info/series_info.dart';
 import 'package:distinct_assignment/domain/repository/match_repo.dart';
@@ -21,6 +22,9 @@ class MatchController extends GetxController {
   /// series info list loading state
   RxBool seriesInfoListLoading = false.obs;
 
+  /// player search list loading state
+  RxBool playerSearchListLoading = false.obs;
+
   /// fetch series info Loading state
   RxBool seriesInfoLoading = false.obs;
 
@@ -35,6 +39,8 @@ class MatchController extends GetxController {
 
   /// series info data
   Rx<SeriesInfo> seriesInfo = Rx<SeriesInfo>(SeriesInfo());
+
+  RxList<Player> playerSearchList = <Player>[].obs;
 
   Timer? matchDetailTimer;
   Timer? currentMatchTimer;
@@ -66,6 +72,7 @@ class MatchController extends GetxController {
       currentMatch.value = match;
     } else {
       matchDetailLoading.value = true;
+      playerSearchListLoading.value = true;
     }
     final result = await matchRepo.matchDetails(id: matchId);
     result.fold(
@@ -78,6 +85,7 @@ class MatchController extends GetxController {
       },
     );
     matchDetailLoading.value = false;
+    searchPlayer('');
   }
 
   void updateCurrentMatchesInTimeInterval() {
@@ -160,5 +168,29 @@ class MatchController extends GetxController {
       },
     );
     seriesInfoLoading.value = false;
+  }
+
+  void searchPlayer(String query) {
+    if (query.isEmpty) {
+      playerSearchList.clear();
+      return;
+    }
+    playerSearchListLoading.value = true;
+
+    matchRepo.playerSearch(query: query).then((result) {
+      result.fold(
+        (failure) {
+          // Handle error
+          log(failure.message ?? 'Failed to search players');
+          playerSearchList.clear();
+        },
+        (players) {
+          // Process players
+          log('Found ${players.length} players for query: $query');
+          playerSearchList.value = players;
+        },
+      );
+      playerSearchListLoading.value = false;
+    });
   }
 }

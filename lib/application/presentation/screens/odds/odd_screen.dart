@@ -116,7 +116,11 @@ class ScreenOdds extends StatelessWidget {
                       color: Colors.grey,
                     ),
                   )
-                  : Image.file(File(controller.imagePath.value), height: 200),
+                  : Image.file(
+                    File(controller.imagePath.value),
+                    height: 200,
+                    width: double.infinity,
+                  ),
 
               SizedBox(height: 16),
               Text(controller.stats.value, style: theme.textTheme.bodyLarge),
@@ -140,20 +144,17 @@ class ScreenOdds extends StatelessWidget {
                   ),
                   if (controller.imagePath.isNotEmpty) adjustWidth(10),
                   if (controller.imagePath.isNotEmpty)
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: controller.removeImage,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.colorScheme.error,
-                          ),
-                          icon: Icon(Icons.delete, color: kblack),
-                          label: Text(
-                            "Remove Image",
-                            style: theme.textTheme.labelLarge?.copyWith(
-                              color: kblack,
-                            ),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: controller.removeImage,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: theme.colorScheme.error,
+                        ),
+                        icon: Icon(Icons.delete, color: kblack),
+                        label: Text(
+                          "Remove Image",
+                          style: theme.textTheme.labelLarge?.copyWith(
+                            color: kblack,
                           ),
                         ),
                       ),
