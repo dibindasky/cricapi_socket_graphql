@@ -19,5 +19,7 @@ void showCustomToast({
     fontSize: fontSize,
     backgroundColor: backgroundColor,
     textColor: textColor,
+    webBgColor: "linear-gradient(to right,#ff0000)",
+    webPosition: "center",
   );
 }

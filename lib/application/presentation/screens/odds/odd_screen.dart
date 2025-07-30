@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:distinct_assignment/application/controller/odd/odd_controller.dart';
 import 'package:distinct_assignment/core/utils/colors.dart';
 import 'package:distinct_assignment/core/utils/const.dart';
+import 'package:distinct_assignment/core/utils/toast/custom_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -112,7 +113,9 @@ class ScreenOdds extends StatelessWidget {
               SizedBox(height: 8),
               controller.imagePath.isEmpty
                   ? Text(
-                    "No image selected",
+                    kIsWeb
+                        ? "This feature is not available on the web."
+                        : "No image selected",
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: Colors.grey,
                     ),
@@ -134,7 +137,15 @@ class ScreenOdds extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: controller.pickImage,
+                      onPressed: () {
+                        if (!kIsWeb) {
+                          controller.pickImage();
+                        } else {
+                          showCustomToast(
+                            message: "Scoreboard data extraction is not available on web.",
+                          );
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: theme.colorScheme.primary,
                       ),
