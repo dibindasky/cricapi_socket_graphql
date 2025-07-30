@@ -16,3 +16,13 @@ class AllControllerBinding implements Bindings {
     Get.put(OddController(), permanent: true);
   }
 }
+
+class InitialBinding {
+  static final List<Bind<dynamic>> bindings = [
+    Bind.put(AuthController()),
+    Bind.put(NavbarController()),
+    Bind.put(ProfileController()),
+    Bind.put(MatchController()),
+    Bind.put(OddController()),
+  ];
+}

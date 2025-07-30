@@ -38,8 +38,8 @@ class DistinctAssignmentApp extends StatelessWidget {
             child: widget!,
           );
         },
-
-        initialBinding: AllControllerBinding(),
+        binds: InitialBinding.bindings,
+        // initialBinding: AllControllerBinding(),
         debugShowCheckedModeBanner: false,
         theme: AppThemes.lightTheme(),
         darkTheme: AppThemes.darkTheme(),

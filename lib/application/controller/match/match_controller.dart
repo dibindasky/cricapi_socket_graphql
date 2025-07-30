@@ -106,6 +106,8 @@ class MatchController extends GetxController {
   Future<void> fetchCurrentMatches() async {
     if (currentMatches.isEmpty) {
       currentMatchLoading.value = true;
+    } else {
+      return;
     }
     final result = await matchRepo.currentMatches();
     result.fold(
@@ -136,6 +138,8 @@ class MatchController extends GetxController {
   Future<void> fetchSeriesInfoList() async {
     if (seriesInfoList.isEmpty) {
       seriesInfoListLoading.value = true;
+    } else {
+      return;
     }
     final result = await matchRepo.fetchSeriesInfoList();
     result.fold(

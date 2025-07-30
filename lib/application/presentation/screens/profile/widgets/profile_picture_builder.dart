@@ -25,7 +25,7 @@ class ProfilePictureBuilder extends StatelessWidget {
                     .toUpperCase() ??
                 '!',
             style: Theme.of(context).textTheme.displayMedium?.copyWith(
-              fontSize: 19.sp,
+              fontSize: 19,
               fontWeight: FontWeight.bold,
             ),
           ),

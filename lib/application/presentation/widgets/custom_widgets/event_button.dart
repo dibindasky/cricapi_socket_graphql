@@ -61,7 +61,7 @@ class CustomEventButton extends StatelessWidget {
                 textStyle ??
                 Theme.of(context).textTheme.displaySmall?.copyWith(
                   color: textColr ?? kblack,
-                  fontSize: 14.sp,
+                  fontSize: 14,
                 ),
           ),
         ),

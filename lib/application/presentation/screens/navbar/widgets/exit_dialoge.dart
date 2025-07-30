@@ -19,7 +19,7 @@ Future<bool?> showExitDialog(BuildContext context) {
             borderRadius: BorderRadius.circular(20),
           ),
           title: Text(
-            'Exit From New Mika',
+            'Exit From App',
             style: Theme.of(
               context,
             ).textTheme.displaySmall?.copyWith(fontSize: 16),

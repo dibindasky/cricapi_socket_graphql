@@ -15,60 +15,72 @@ class ScreenCricketHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _homeAppbar(context),
-      body: DefaultTabController(
-        length: 2,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              adjustHieght(10.h),
-              TabBar(
-                dividerColor: knill,
-                labelColor: Theme.of(context).colorScheme.primary,
-                unselectedLabelColor: kgrey,
-                indicatorColor: Theme.of(context).colorScheme.primary,
-                tabs: [
-                  _createTabHeadlline(context, 'Current Matches'),
-                  _createTabHeadlline(context, 'Series'),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        bool isWide = constraints.maxWidth > 500;
+        return Scaffold(
+          appBar: _homeAppbar(context),
+          body: DefaultTabController(
+            length: 2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  adjustHieght(10.h),
+                  TabBar(
+                    tabAlignment: isWide ? TabAlignment.start : null,
+                    isScrollable: isWide,
+                    dividerColor: knill,
+                    labelColor: Theme.of(context).colorScheme.primary,
+                    unselectedLabelColor: kgrey,
+                    indicatorColor: Theme.of(context).colorScheme.primary,
+                    indicatorWeight: 3,
+                    unselectedLabelStyle: TextStyle(color: kgrey),
+                    tabs: [
+                      _createTabHeadlline(context, 'Current Matches'),
+                      _createTabHeadlline(context, 'Series'),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        RefreshIndicator(
+                          onRefresh: () async {
+                            Get.find<ProfileController>().getUserProfile();
+                            Get.find<MatchController>().fetchCurrentMatches();
+                          },
+                          child: SingleChildScrollView(
+                            physics: AlwaysScrollableScrollPhysics(),
+                            child: Column(
+                              children: [
+                                CurrentMatchesList(),
+                                adjustHieght(90.h),
+                              ],
+                            ),
+                          ),
+                        ),
+                        RefreshIndicator(
+                          onRefresh: () async {
+                            Get.find<MatchController>().fetchSeriesInfoList();
+                          },
+                          child: SingleChildScrollView(
+                            physics: AlwaysScrollableScrollPhysics(),
+                            child: Column(
+                              children: [SeriesInfoList(), adjustHieght(90.h)],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-              Expanded(
-                child: TabBarView(
-                  children: [
-                    RefreshIndicator(
-                      onRefresh: () async {
-                        Get.find<ProfileController>().getUserProfile();
-                        Get.find<MatchController>().fetchCurrentMatches();
-                      },
-                      child: SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        child: Column(
-                          children: [CurrentMatchesList(), adjustHieght(90.h)],
-                        ),
-                      ),
-                    ),
-                    RefreshIndicator(
-                      onRefresh: () async {
-                        Get.find<MatchController>().fetchSeriesInfoList();
-                      },
-                      child: SingleChildScrollView(
-                        physics: AlwaysScrollableScrollPhysics(),
-                        child: Column(
-                          children: [SeriesInfoList(), adjustHieght(90.h)],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -77,7 +89,7 @@ class ScreenCricketHome extends StatelessWidget {
       child: Text(
         title,
         style: Theme.of(context).textTheme.displaySmall?.copyWith(
-          fontSize: 15.sp,
+          fontSize: 15,
           fontWeight: FontWeight.bold,
         ),
       ),
