@@ -35,12 +35,36 @@ class SeriesInfoList extends StatelessWidget {
               Text(
                 'No series available at the moment',
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
+        );
+      }
+      if (MediaQuery.of(context).size.width > 600) {
+        return GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: MediaQuery.of(context).size.width > 850 ? 3 : 2,
+            crossAxisSpacing: 10.w,
+            mainAxisSpacing: 10.h,
+            childAspectRatio: MediaQuery.of(context).size.width > 850 ? 3.5 : 3,
+          ),
+          itemBuilder: (context, index) {
+            final match = matchController.seriesInfoList[index];
+
+            return GestureDetector(
+              onTap: () {
+                matchController.fetchSeriesInfo(match.id ?? '');
+                Get.toNamed(Routes.seriesDetail);
+              },
+              child: SeriesTile(match: match, isDetailPage: true),
+            );
+          },
+          itemCount: matchController.seriesInfoList.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
         );
       }
       return ListView.builder(
@@ -77,38 +101,40 @@ class SeriesTile extends StatelessWidget {
         color: Theme.of(context).colorScheme.onTertiary,
         borderRadius: BorderRadius.circular(10.r),
       ),
-      child: ListTile(
-        title: Text(
-          match.name ?? 'Unknown Match',
-          style: Theme.of(context).textTheme.displaySmall?.copyWith(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.bold,
+      child: Center(
+        child: ListTile(
+          title: Text(
+            match.name ?? 'Unknown Match',
+            style: Theme.of(context).textTheme.displaySmall?.copyWith(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
           ),
+          subtitle: Row(
+            children: [
+              Text(
+                isDetailPage
+                    ? match.startdate ?? match.startDate ?? 'N/A'
+                    : match.startDate ?? 'N/A',
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: kgrey),
+              ),
+              adjustWidth(10),
+              Text('-'),
+              adjustWidth(10),
+              Text(
+                isDetailPage
+                    ? match.enddate ?? match.endDate ?? 'N/A'
+                    : match.endDate ?? 'N/A',
+                style: Theme.of(
+                  context,
+                ).textTheme.labelSmall?.copyWith(color: kgrey),
+              ),
+            ],
+          ),
+          // trailing: Icon(Icons.arrow_forward_ios),
         ),
-        subtitle: Row(
-          children: [
-            Text(
-              isDetailPage
-                  ? match.startdate ?? match.startDate ?? 'N/A'
-                  : match.startDate ?? 'N/A',
-              style: Theme.of(
-                context,
-              ).textTheme.labelSmall?.copyWith(color: kgrey),
-            ),
-            adjustWidth(10),
-            Text('-'),
-            adjustWidth(10),
-            Text(
-              isDetailPage
-                  ? match.enddate ?? match.endDate ?? 'N/A'
-                  : match.endDate ?? 'N/A',
-              style: Theme.of(
-                context,
-              ).textTheme.labelSmall?.copyWith(color: kgrey),
-            ),
-          ],
-        ),
-        // trailing: Icon(Icons.arrow_forward_ios),
       ),
     );
   }

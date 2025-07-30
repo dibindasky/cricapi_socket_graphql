@@ -14,24 +14,23 @@ class ScreenSplash extends StatelessWidget {
       _navigate(context);
     });
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FadeInUpBig(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          adjustWidth(double.infinity),
+          ZoomIn(
+            child: Hero(
+              tag: appLogo,
               child: SizedBox(
-                width: 200.w,
-                child: Hero(
-                  tag: appLogo,
-                  child: Image.asset(
-                    appLogo,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
+                width: 150.w,
+                child: Image.asset(
+                  appLogo,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

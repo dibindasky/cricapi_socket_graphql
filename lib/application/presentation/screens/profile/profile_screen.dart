@@ -2,7 +2,6 @@ import 'package:distinct_assignment/application/controller/profile/profile_contr
 import 'package:distinct_assignment/application/controller/theme/theme_controller.dart';
 import 'package:distinct_assignment/application/presentation/screens/profile/widgets/profile_picture_builder.dart';
 import 'package:distinct_assignment/application/presentation/widgets/loading_indecators/loading_animations.dart';
-import 'package:distinct_assignment/application/presentation/widgets/loading_indecators/shimmer/shimmer_loader.dart';
 import 'package:distinct_assignment/core/utils/colors.dart';
 import 'package:distinct_assignment/core/utils/const.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,9 @@ class ScreenProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileController = Get.find<ProfileController>();
     final themeController = Get.find<ThemeController>();
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      profileController.getUserProfile();
+    });
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -29,131 +30,204 @@ class ScreenProfile extends StatelessWidget {
             );
           }
           return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                adjustWidth(double.infinity),
-
-                /// name and profile pic
-                Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    adjustHieght(20.h),
-                    const ProfilePictureBuilder(),
-                    adjustHieght(10),
-                    Obx(
-                      () => Text(
-                        profileController.userData.value.name ?? '',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.displaySmall?.copyWith(fontSize: 22.sp),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                bool isWide = constraints.maxWidth > 500;
+                if (isWide) {
+                  return Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _nameAndProfileInfo(
+                              profileController,
+                              context,
+                            ),
+                          ),
+                          adjustWidth(30),
+                          Expanded(
+                            child: _personalInformations(
+                              context,
+                              profileController,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    adjustHieght(3),
-                    Obx(
-                      () => Text(
-                        profileController.userData.value.username ?? '',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelSmall?.copyWith(color: kgrey),
+                      adjustHieght(20),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: _addressInformations(
+                              context,
+                              profileController,
+                            ),
+                          ),
+                          adjustWidth(30),
+                          Expanded(
+                            child: _appSettingsAndPolicy(
+                              context,
+                              themeController,
+                              profileController,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    adjustHieght(30.h),
-                  ],
-                ),
-
-                /// Personal informations
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                      adjustHieght(90.h),
+                    ],
+                  );
+                }
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Profile Information',
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                    _OptionsListTile(
-                      label: 'Email',
-                      subLabel: profileController.userData.value.email ?? '',
-                      onTap: () {},
-                    ),
-                    _OptionsListTile(
-                      label: 'Phone',
-                      subLabel: profileController.userData.value.phone ?? '',
-                      onTap: () {},
-                    ),
-                    _OptionsListTile(
-                      label: 'Website',
-                      subLabel: profileController.userData.value.website ?? '',
-                      onTap: () {},
-                    ),
-                  ],
-                ),
+                    adjustWidth(double.infinity),
 
-                /// address
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    adjustHieght(20),
-                    Text(
-                      'Address',
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                    _OptionsListTile(
-                      label: 'Street',
-                      subLabel:
-                          profileController.userData.value.address?.street ??
-                          '',
-                      onTap: () {},
-                    ),
-                    _OptionsListTile(
-                      label: 'City',
-                      subLabel:
-                          profileController.userData.value.address?.city ?? '',
-                      onTap: () {},
-                    ),
-                    _OptionsListTile(
-                      label: 'Zip Code',
-                      subLabel:
-                          profileController.userData.value.address?.zipcode ??
-                          '',
-                      onTap: () {},
-                    ),
-                  ],
-                ),
+                    /// name and profile pic
+                    _nameAndProfileInfo(profileController, context),
 
-                /// app settings and policy
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    adjustHieght(20),
-                    Text(
-                      'App',
-                      style: Theme.of(context).textTheme.displayMedium,
+                    /// Personal informations
+                    _personalInformations(context, profileController),
+
+                    /// address
+                    _addressInformations(context, profileController),
+
+                    /// app settings and policy
+                    _appSettingsAndPolicy(
+                      context,
+                      themeController,
+                      profileController,
                     ),
-                    Obx(
-                      () => _OptionsListTile(
-                        label: 'Theme',
-                        onTap: () {
-                          themeSelectionBottomSheet(context, themeController);
-                        },
-                        subLabel: themeController.themeModeString.value,
-                      ),
-                    ),
-                    _OptionsListTile(
-                      label: 'Logout',
-                      onTap: () {
-                        profileController.logout();
-                      },
-                    ),
-                    _OptionsListTile(label: 'Privacy Policy', onTap: () {}),
-                    _OptionsListTile(label: 'Delete Account', onTap: () {}),
+                    adjustHieght(50.h),
                   ],
-                ),
-                adjustHieght(50.h),
-              ],
+                );
+              },
             ),
           );
         }),
       ),
+    );
+  }
+
+  Column _appSettingsAndPolicy(
+    BuildContext context,
+    ThemeController themeController,
+    ProfileController profileController,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        adjustHieght(20),
+        Text('App', style: Theme.of(context).textTheme.displayMedium),
+        Obx(
+          () => _OptionsListTile(
+            label: 'Theme',
+            onTap: () {
+              themeSelectionBottomSheet(context, themeController);
+            },
+            subLabel: themeController.themeModeString.value,
+          ),
+        ),
+        _OptionsListTile(
+          label: 'Logout',
+          onTap: () {
+            profileController.logout();
+          },
+        ),
+        _OptionsListTile(label: 'Privacy Policy', onTap: () {}),
+        _OptionsListTile(label: 'Delete Account', onTap: () {}),
+      ],
+    );
+  }
+
+  Column _addressInformations(
+    BuildContext context,
+    ProfileController profileController,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        adjustHieght(20),
+        Text('Address', style: Theme.of(context).textTheme.displayMedium),
+        _OptionsListTile(
+          label: 'Street',
+          subLabel: profileController.userData.value.address?.street ?? '',
+          onTap: () {},
+        ),
+        _OptionsListTile(
+          label: 'City',
+          subLabel: profileController.userData.value.address?.city ?? '',
+          onTap: () {},
+        ),
+        _OptionsListTile(
+          label: 'Zip Code',
+          subLabel: profileController.userData.value.address?.zipcode ?? '',
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
+  Column _personalInformations(
+    BuildContext context,
+    ProfileController profileController,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Profile Information',
+          style: Theme.of(context).textTheme.displayMedium,
+        ),
+        _OptionsListTile(
+          label: 'Email',
+          subLabel: profileController.userData.value.email ?? '',
+          onTap: () {},
+        ),
+        _OptionsListTile(
+          label: 'Phone',
+          subLabel: profileController.userData.value.phone ?? '',
+          onTap: () {},
+        ),
+        _OptionsListTile(
+          label: 'Website',
+          subLabel: profileController.userData.value.website ?? '',
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
+  Column _nameAndProfileInfo(
+    ProfileController profileController,
+    BuildContext context,
+  ) {
+    return Column(
+      // mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start ,
+      children: [
+        adjustHieght(20.h),
+        const ProfilePictureBuilder(),
+        adjustHieght(10),
+        Obx(
+          () => Text(
+            profileController.userData.value.name ?? '',
+            style: Theme.of(
+              context,
+            ).textTheme.displaySmall?.copyWith(fontSize: 22),
+          ),
+        ),
+        adjustHieght(3),
+        Obx(
+          () => Text(
+            profileController.userData.value.username ?? '',
+            style: Theme.of(
+              context,
+            ).textTheme.labelSmall?.copyWith(color: kgrey),
+          ),
+        ),
+        adjustHieght(30.h),
+      ],
     );
   }
 
@@ -265,7 +339,7 @@ class _OptionsListTile extends StatelessWidget {
                   label,
                   style: Theme.of(
                     context,
-                  ).textTheme.displaySmall?.copyWith(fontSize: 14.sp),
+                  ).textTheme.displaySmall?.copyWith(fontSize: 14),
                 ),
                 if (subLabel != null)
                   Text(
@@ -283,7 +357,7 @@ class _OptionsListTile extends StatelessWidget {
                       border: Border.all(color: klightgrey),
                       color: Theme.of(context).colorScheme.onTertiary,
                     ),
-                    child:  Icon(
+                    child: Icon(
                       Iconsax.arrow_right_3,
                       color: Theme.of(context).colorScheme.onPrimary,
                       size: 16,

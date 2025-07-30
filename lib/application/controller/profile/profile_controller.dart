@@ -17,7 +17,9 @@ class ProfileController extends GetxController {
 
   /// get user profile
   Future<void> getUserProfile() async {
-    prfileDetailLoading.value = true;
+    if (userData.value.id == null) {
+      prfileDetailLoading.value = true;
+    }
     // if(graphQLService.client == null) {
     await graphQLService.initClient();
     // }

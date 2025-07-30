@@ -34,12 +34,36 @@ class CurrentMatchesList extends StatelessWidget {
               Text(
                 'No matches available at the moment',
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
           ),
+        );
+      }
+      if (MediaQuery.of(context).size.width > 800) {
+        return GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: MediaQuery.of(context).size.width > 1000 ? 3 : 2,
+            crossAxisSpacing: 10.w,
+            mainAxisSpacing: 10.h,
+            childAspectRatio: MediaQuery.of(context).size.width > 1000 ? 1.8 : 2,
+          ),
+          itemBuilder: (context, index) {
+            final match = matchController.currentMatches[index];
+
+            return GestureDetector(
+              onTap: () {
+                matchController.fetchMatchDetail(match.id ?? '', match: match);
+                Get.toNamed(Routes.matchDetail);
+              },
+              child: MatchCard(match: match),
+            );
+          },
+          itemCount: matchController.currentMatches.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
         );
       }
       return ListView.builder(
